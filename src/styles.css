@@ -3,3 +3,31 @@
 
 .form-error { margin: 0; color: #b42318; font-weight: 600; font-size: .9rem; }
 button:disabled { opacity: .65; cursor: not-allowed; }
+
+.admin { min-height: 100vh; background: #f8faff; }
+.admin-login { display: flex; align-items: center; justify-content: center; padding: 24px; background: #1746b3; }
+.admin-card { display: flex; flex-direction: column; gap: 12px; width: min(400px, 100%); padding: 36px; background: white; border-radius: 16px; border-top: 6px solid #ffd21f; box-shadow: 0 20px 50px rgba(8, 24, 63, .25); }
+.admin-card h1 { margin: 8px 0 0; font-size: 1.6rem; }
+.admin-card p { margin: 0; color: #475578; }
+.admin-card label { margin-top: 8px; font-weight: 800; font-size: .9rem; }
+.admin-card input { padding: 12px 14px; border: 1px solid #c9d4ee; border-radius: 9px; }
+.admin-card input:focus { outline: 2px solid #1746b3; outline-offset: 1px; }
+.admin-back { align-self: center; color: #1746b3; font-weight: 700; font-size: .9rem; }
+.admin-header { background: #1746b3; color: white; border-bottom: 6px solid #ffd21f; }
+.admin-header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 0; }
+.admin-header h1 { margin: 0; font-size: 1.75rem; }
+.admin-header p { margin: 4px 0 0; color: #dbe5ff; }
+.admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.admin-ghost { background: transparent; color: white; border: 1px solid rgba(255, 255, 255, .5); }
+.admin-ghost:hover { background: rgba(255, 255, 255, .1); }
+.admin-body { padding: 32px 0 64px; }
+.admin-empty { padding: 48px; text-align: center; background: white; border-radius: 12px; color: #475578; }
+.admin-table-wrap { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 3px 18px rgba(8, 24, 63, .06); }
+.admin-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.admin-table th { text-align: left; padding: 14px 16px; background: #eef2fc; font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
+.admin-table td { padding: 14px 16px; border-top: 1px solid #e5eaf6; vertical-align: top; }
+.admin-table a { color: #1746b3; }
+.admin-message { min-width: 240px; max-width: 420px; white-space: pre-wrap; }
+.nowrap { white-space: nowrap; }
+.admin-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #fff4c2; font-weight: 700; text-transform: capitalize; }
+@media (max-width: 620px) { .admin-actions { width: 100%; } .admin-card { padding: 28px; } }
