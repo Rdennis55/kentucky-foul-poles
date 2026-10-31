@@ -35,6 +35,23 @@ const nav = [['mission','Mission'],['pathway','Player Pathway'],['practice','Dev
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [formSent, setFormSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [formError, setFormError] = useState('')
+  const submitInterest = async e => {
+    e.preventDefault()
+    const form = e.currentTarget
+    setSubmitting(true); setFormError('')
+    try {
+      const res = await fetch('/api/interest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.')
+      form.reset(); setFormSent(true)
+    } catch (err) {
+      setFormError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
   const scrollTo = id => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMenuOpen(false) }
 
   return <div className="site">
@@ -72,7 +89,7 @@ export default function App() {
 
       <section id="tryout-flyer" className="section dark"><div className="container flyer-grid"><div><div className="eyebrow yellow-text">Private Tryouts</div><h2>Compete. Develop. Grow.</h2><p className="lead light-text">Interested players and families can use our private-tryout flyer for program information and scheduling details.</p><button className="button yellow" onClick={() => scrollTo('contact')}>REQUEST A TRYOUT <ChevronRight size={18}/></button></div><figure className="flyer"><img src="/tryoutflyer.jpg" alt="Kentucky Foul Poles private tryouts flyer"/></figure></div></section>
 
-      <section id="contact" className="contact"><div className="container contact-card"><div><span className="icon-box"><Megaphone/></span><h2>Ready to join?</h2><p className="lead">Share your interest in tryouts, coaching, volunteering, or sponsoring the Kentucky Foul Poles.</p><p className="contact-line"><MapPin/> Kentucky Youth Baseball</p><p className="contact-line"><Mail/> Program interest form</p></div><div>{formSent ? <div className="success"><Star/><h3>Interest received!</h3><p>This demo confirms in the browser only. Connect a form service before launch.</p><button className="button blue" onClick={() => setFormSent(false)}>SUBMIT ANOTHER</button></div> : <form onSubmit={e => {e.preventDefault(); setFormSent(true)}}><input required placeholder="Parent/guardian name" className="wide"/><input required type="email" placeholder="Email"/><input placeholder="Player age"/><select className="wide" defaultValue="tryouts"><option value="tryouts">Interested in tryouts</option><option value="coaching">Interested in coaching</option><option value="volunteering">Interested in volunteering</option><option value="sponsoring">Interested in sponsoring</option></select><textarea className="wide" placeholder="Tell us a little more" rows="4"/><button className="button yellow wide" type="submit">SEND INTEREST <ArrowRight size={18}/></button></form>}</div></div></section>
+      <section id="contact" className="contact"><div className="container contact-card"><div><span className="icon-box"><Megaphone/></span><h2>Ready to join?</h2><p className="lead">Share your interest in tryouts, coaching, volunteering, or sponsoring the Kentucky Foul Poles.</p><p className="contact-line"><MapPin/> Kentucky Youth Baseball</p><p className="contact-line"><Mail/> Program interest form</p></div><div>{formSent ? <div className="success"><Star/><h3>Interest received!</h3><p>Thanks for reaching out. A Foul Poles coach will follow up by email soon.</p><button className="button blue" onClick={() => setFormSent(false)}>SUBMIT ANOTHER</button></div> : <form onSubmit={submitInterest}><input required name="name" aria-label="Parent/guardian name" placeholder="Parent/guardian name" className="wide"/><input required name="email" type="email" aria-label="Email" placeholder="Email"/><input name="playerAge" aria-label="Player age" placeholder="Player age"/><select name="interest" aria-label="Interest" className="wide" defaultValue="tryouts"><option value="tryouts">Interested in tryouts</option><option value="coaching">Interested in coaching</option><option value="volunteering">Interested in volunteering</option><option value="sponsoring">Interested in sponsoring</option></select><textarea name="message" aria-label="Message" className="wide" placeholder="Tell us a little more" rows="4"/>{formError && <p className="form-error wide" role="alert">{formError}</p>}<button className="button yellow wide" type="submit" disabled={submitting}>{submitting ? 'SENDING...' : <>SEND INTEREST <ArrowRight size={18}/></>}</button></form>}</div></div></section>
     </main>
 
     <footer><div className="container footer-inner"><div className="brand footer-brand"><span className="brand-mark small">KFP</span><span><b>Kentucky Foul Poles</b><small>Develop. Compete. Belong.</small></span></div><small>© 2026 Kentucky Foul Poles Baseball</small></div></footer>
